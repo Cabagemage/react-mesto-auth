@@ -1,0 +1,10 @@
+.header__button{
+  font-size: 18px;
+  line-height: 22px;
+  text-align: right;
+  color: white;
+  text-decoration: none;
+  background: transparent; /* Синий цвет фона */
+  color: #fff; /* Белый цвет текста */
+  border: none;
+}
