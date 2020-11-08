@@ -86,6 +86,7 @@ function App() {
   const changeLoginState = () => {
     setLoggedIn(true);
   };
+
   const handleCardClick = (card) => {
     setSelectedCard(card);
   };
@@ -127,7 +128,7 @@ function App() {
 
         <Header>
         </Header>
-        <Route exact path="/">
+        <ProtectedRoute loggedIn={loggedIn} exact path="/">
         <Main
           cards={cards}
           onCardLike={handleCardLike}
@@ -137,11 +138,11 @@ function App() {
           onEditAvatar={handleAvatarClick}
           onCardClick={handleCardClick}
         />
-        </Route>
-          <Route exact path="/sign-in">
+        </ProtectedRoute>
+          <Route exact path="/signin">
           <Login />
         </Route>
-        <Route exact path="/registration">
+        <Route exact path="/signup">
           <Register />
         </Route>
         <EditProfilePopup
