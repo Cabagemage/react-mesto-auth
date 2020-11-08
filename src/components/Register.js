@@ -1,6 +1,6 @@
 import React from "react";
 import "../App.css";
-import * as Auth from '..//utils/Auth';
+import * as Auth from '../utils/Auth';
 
 class Register extends React.Component {
   constructor(props) {

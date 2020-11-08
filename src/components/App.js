@@ -13,6 +13,7 @@ import Login from "./Login";
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import ProtectedRoute from "./HOC/ProtectedRoute"
 import Register from './Register'
+import * as Auth from '../utils/Auth';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -21,7 +22,8 @@ function App() {
   const [isChangeAvatarPopupOpen, setChangeAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [login, setLogin] = useState(false)
+
   useEffect(() => {
     apiProfile
       .getAppinfo()
@@ -83,8 +85,8 @@ function App() {
   const handleAvatarClick = () => {
     setChangeAvatarPopupOpen(true);
   };
-  const changeLoginState = () => {
-    setLoggedIn(true);
+  const handleLogin = () => {
+    setLogin(true);
   };
 
   const handleCardClick = (card) => {
@@ -118,7 +120,13 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-
+function handleTokenCheck(){
+  if (localStorage.getItem('jwt')){
+  const jwt = localStorage.getItem('jwt');
+  Auth.checkToken(jwt).then((res) =>{
+  })
+}
+}
   return (
     <BrowserRouter>
 
@@ -128,8 +136,10 @@ function App() {
 
         <Header>
         </Header>
-        <ProtectedRoute loggedIn={loggedIn} exact path="/">
-        <Main
+        <ProtectedRoute
+          loggedIn={login}
+          exact path="/">
+         <Main
           cards={cards}
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
@@ -139,10 +149,10 @@ function App() {
           onCardClick={handleCardClick}
         />
         </ProtectedRoute>
-          <Route exact path="/signin">
-          <Login />
+          <Route  path="/signin">
+          <Login handleLogin={handleLogin}/>
         </Route>
-        <Route exact path="/signup">
+        <Route path="/signup">
           <Register />
         </Route>
         <EditProfilePopup
