@@ -136,10 +136,7 @@ function handleTokenCheck(){
 
         <Header>
         </Header>
-        <ProtectedRoute
-          loggedIn={login}
-          exact path="/">
-         <Main
+        {/* <Main
           cards={cards}
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
@@ -147,7 +144,19 @@ function handleTokenCheck(){
           onAddPlace={handleAddClick}
           onEditAvatar={handleAvatarClick}
           onCardClick={handleCardClick}
-        />
+        /> */}
+
+        <ProtectedRoute
+          loggedIn={login}
+          exact path="/"
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+          onEditProfile={handleEditClick}
+          onAddPlace={handleAddClick}
+          onEditAvatar={handleAvatarClick}
+          onCardClick={handleCardClick}
+          component={Main}>
         </ProtectedRoute>
           <Route  path="/signin">
           <Login handleLogin={handleLogin}/>
