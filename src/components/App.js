@@ -10,12 +10,14 @@ import { currentUserContext } from "../contexts/currentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import Login from "./Login";
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import ProtectedRoute from "./HOC/ProtectedRoute"
 import Register from './Register'
 import * as Auth from '../utils/Auth';
+import InfoTooltip from './InfoTooltip'
 
 function App() {
+  const history = useHistory()
   const [currentUser, setCurrentUser] = useState({});
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddImagePopupOpen, setAddImagePopupOpen] = useState(false);
@@ -23,7 +25,10 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [login, setLogin] = useState(false)
-
+  const [isRegister, setRegister] = useState(false)
+  const [isInfoPopup, setInfoPopup] = useState(false)
+  const [isEmail, setEmail] = useState('');
+  const [token, setToken] = useState(false)
   useEffect(() => {
     apiProfile
       .getAppinfo()
@@ -41,7 +46,25 @@ function App() {
     }
     closeAllPopups();
   };
+  const onInfoPopup = () => {
+    setInfoPopup(true)
+  }
+  const signOut = () => {
+    setEmail('')
+    localStorage.removeItem('jwt')
+    history.push('/signin')
+  }
 
+  const onRegister = (email, password) => {
+      setRegister(true)
+      Auth.register(email, password)
+      .then((res) =>{
+        setLogin(true)
+        onInfoPopup()
+        console.log('hello')
+        history.push('/signin')
+      })
+  }
   const handleUpdateUser = (user) => {
     apiProfile
       .setUserInfo(user)
@@ -85,8 +108,13 @@ function App() {
   const handleAvatarClick = () => {
     setChangeAvatarPopupOpen(true);
   };
-  const handleLogin = () => {
-    setLogin(true);
+  const handleLogin = (email, password) => {
+    Auth.signIn(email, password)
+    .then(res =>{
+      setLogin(true);
+      setEmail(email)
+      console.log(email)
+    })
   };
 
   const handleCardClick = (card) => {
@@ -124,28 +152,22 @@ function handleTokenCheck(){
   if (localStorage.getItem('jwt')){
   const jwt = localStorage.getItem('jwt');
   Auth.checkToken(jwt).then((res) =>{
+    setLogin(true)
+    setEmail(res)
   })
 }
 }
+React.useEffect(() => {
+  handleTokenCheck();
+}, []);
+
   return (
     <BrowserRouter>
+<currentUserContext.Provider value={currentUser}>
+<Header isEmail={signOut}></Header>
 
-       <Switch>
     <div className="page">
-      <currentUserContext.Provider value={currentUser}>
-
-        <Header>
-        </Header>
-        {/* <Main
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-          onEditProfile={handleEditClick}
-          onAddPlace={handleAddClick}
-          onEditAvatar={handleAvatarClick}
-          onCardClick={handleCardClick}
-        /> */}
-
+    <Switch>
         <ProtectedRoute
           loggedIn={login}
           exact path="/"
@@ -162,7 +184,7 @@ function handleTokenCheck(){
           <Login handleLogin={handleLogin}/>
         </Route>
         <Route path="/signup">
-          <Register />
+          <Register onRegister={onRegister} />
         </Route>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -190,10 +212,10 @@ function handleTokenCheck(){
         />
 
         <Footer />
-      </currentUserContext.Provider>
+        </Switch>
       </div>
-      </Switch>
 
+      </currentUserContext.Provider>
     </BrowserRouter>
   );
 }
