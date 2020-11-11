@@ -25,10 +25,11 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [login, setLogin] = useState(false)
-  const [isRegister, setRegister] = useState(false)
   const [isInfoPopup, setInfoPopup] = useState(false)
   const [isEmail, setEmail] = useState('');
   const [token, setToken] = useState(false)
+
+
   useEffect(() => {
     apiProfile
       .getAppinfo()
@@ -46,25 +47,7 @@ function App() {
     }
     closeAllPopups();
   };
-  const onInfoPopup = () => {
-    setInfoPopup(true)
-  }
-  const signOut = () => {
-    setEmail('')
-    localStorage.removeItem('jwt')
-    history.push('/signin')
-  }
 
-  const onRegister = (email, password) => {
-      setRegister(true)
-      Auth.register(email, password)
-      .then((res) =>{
-        setLogin(true)
-        onInfoPopup()
-        console.log('hello')
-        history.push('/signin')
-      })
-  }
   const handleUpdateUser = (user) => {
     apiProfile
       .setUserInfo(user)
@@ -84,12 +67,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   };
-  // const handleEscClose = () => {
-  //   document.addEventListener('keyup', (e) => {
-  //     if (e.key === 'escape') closeAllPopups();
-  //    });
-  //  }
-
   const handleAddPlaceSubmit = (name, link) => {
     apiProfile
       .postNewCard(name, link)
@@ -107,14 +84,6 @@ function App() {
   };
   const handleAvatarClick = () => {
     setChangeAvatarPopupOpen(true);
-  };
-  const handleLogin = (email, password) => {
-    Auth.signIn(email, password)
-    .then(res =>{
-      setLogin(true);
-      setEmail(email)
-      console.log(email)
-    })
   };
 
   const handleCardClick = (card) => {
@@ -153,10 +122,54 @@ function handleTokenCheck(){
   const jwt = localStorage.getItem('jwt');
   Auth.checkToken(jwt).then((res) =>{
     setLogin(true)
-    setEmail(res)
+    setEmail(res.email)
+    setToken(jwt)
+    // history.push('/') 
   })
 }
 }
+  // const handleEscClose = () => {
+  //   document.addEventListener('keyup', (e) => {
+  //     if (e.key === 'escape') closeAllPopups();
+  //    });
+  //  }
+
+
+// Логика регистрации, авторизации, токенов и т.д.
+
+const onInfoPopup = () => {
+  setInfoPopup(true)
+}
+const signOut = () => {
+  setEmail('')
+  localStorage.removeItem('jwt')
+  history.push('/signin')
+}
+
+const onRegister = (email, password) => {
+    Auth.register(email, password)
+    .then((res) =>{
+      setLogin(true)
+      onInfoPopup()
+      console.log('hello')
+      history.push('/signin')
+    })
+}
+
+  const handleLogin = (email, password) => {
+    Auth.signIn(email, password)
+    .then(res  =>{
+      if(res && res.token) {
+        localStorage.setItem('jwt', res.token)
+        setToken(res)
+        setLogin(true);
+        setEmail(email)
+        console.log(email, res)
+      }
+    })
+  };
+
+
 React.useEffect(() => {
   handleTokenCheck();
 }, []);
