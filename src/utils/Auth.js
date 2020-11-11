@@ -31,31 +31,15 @@ export const signIn = (email, password) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({email, password})
+  }).then((res) => {
+    return res.json()
   })
-  .then((response) => {
-    try {
-      if (response.status === 200){
-        return response.json();
-      }
-    } catch(e){
-      return (e)
-    }
-  })
-  .then((data) => {
-    if(data){
-      localStorage.setItem('jwt', data.jwt);
-      return data
-    }
-    else {return}
-  })
-  .catch((err) => console.log(err));
 };
 
 export const checkToken = (token) => {
-  return fetch(`${BASE_URL}/me`, {
+  return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
-      'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
     }

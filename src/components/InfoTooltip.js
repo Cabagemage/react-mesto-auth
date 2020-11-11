@@ -1,8 +1,8 @@
 import React from "react";
-function InfoToolTip({onRegister, isClose, closeToOverlay }) {
+function InfoToolTip({onRegister, isOpen, isClose, closeToOverlay }) {
   return (
     <div
-      className={`popup   popup_function_registration ${onRegister && "popup_opened"}  `}
+      className={`popup   popup_function_registration ${isOpen && "popup_opened"}  `}
       onClick={closeToOverlay}
     >
       <div className="popup__container popup__container_function_registration">

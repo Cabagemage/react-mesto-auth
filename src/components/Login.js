@@ -22,19 +22,10 @@ class Login extends React.Component {
   handleSubmit(e){
         e.preventDefault()
         const {email, password} = this.state;
-        Auth.signIn(email, password)
-        .then((data) => {
-          if (data){
-            this.setState({
-              email: '',
-              password: ''
-            }, () => {
-                this.props.handleLogin();
-                this.props.history.push('/');
-            })
+        this.props.handleLogin(email, password)
+        
   }
-}).catch(err => console.log(err));
-  }
+
 
   render() {
   return (

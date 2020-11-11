@@ -1,14 +1,11 @@
-import React, {useState} from "react";
+import React, {useContext} from "react";
 import logo from "../images/logo.svg";
 import { Link } from 'react-router-dom';
 import "../App.css";
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-
-function Header({onRegister, isEmail}) {
-  const [login, toLogin] = useState(false);
-
-
-
+import {Route} from 'react-router-dom';
+import {currentUserContext} from '../contexts/currentUserContext'
+function Header({onRegister, signOut, email}) {
+  
   return (
     <header className="header">
       <img src={logo} className="header__logo" alt="logo" />
@@ -19,12 +16,12 @@ function Header({onRegister, isEmail}) {
       </Route>
     <Route path="/signin">
     <button className="header__button">
-    <Link className="header__button"  to="/signup" onClick={onRegister}>Регистрация</Link>
+    <Link className="header__button"  to="/signup"  onClick={onRegister}>Регистрация</Link>
     </button>
     </Route>
     <Route exact path="/">
-      <p>hello</p>
-      <Link className="header__button"   onClick={isEmail}>Выйти</Link>
+      <p>{email}</p>
+      <Link className="header__button"   onClick={signOut}>Выйти</Link>
     </Route>
     </header>
 

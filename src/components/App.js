@@ -26,8 +26,8 @@ function App() {
   const [cards, setCards] = useState([]);
   const [login, setLogin] = useState(false)
   const [isInfoPopup, setInfoPopup] = useState(false)
-  const [isEmail, setEmail] = useState('');
-  const [token, setToken] = useState(false)
+  const [email, setEmail] = useState('');
+
 
 
   useEffect(() => {
@@ -97,7 +97,6 @@ function App() {
   };
 
   function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     apiProfile
@@ -117,17 +116,9 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-function handleTokenCheck(){
-  if (localStorage.getItem('jwt')){
-  const jwt = localStorage.getItem('jwt');
-  Auth.checkToken(jwt).then((res) =>{
-    setLogin(true)
-    setEmail(res.email)
-    setToken(jwt)
-    // history.push('/') 
-  })
-}
-}
+
+
+
   // const handleEscClose = () => {
   //   document.addEventListener('keyup', (e) => {
   //     if (e.key === 'escape') closeAllPopups();
@@ -136,6 +127,20 @@ function handleTokenCheck(){
 
 
 // Логика регистрации, авторизации, токенов и т.д.
+
+
+function handleTokenCheck(){
+  if (localStorage.getItem('jwt')){
+  const jwt = localStorage.getItem('jwt');
+  Auth.checkToken(jwt).then((res) =>{
+    if(res){
+      setLogin(true)
+      history.push('/')
+    }
+  }).catch(err => console.log({message: err}))
+}
+}
+
 
 const onInfoPopup = () => {
   setInfoPopup(true)
@@ -149,35 +154,34 @@ const signOut = () => {
 const onRegister = (email, password) => {
     Auth.register(email, password)
     .then((res) =>{
-      setLogin(true)
-      onInfoPopup()
-      console.log('hello')
-      history.push('/signin')
+      if(res){
+      console.log(res)
+      setInfoPopup(true)
+      history.push('/signin')}
     })
 }
 
   const handleLogin = (email, password) => {
     Auth.signIn(email, password)
     .then(res  =>{
-      if(res && res.token) {
+      if(res.token){
         localStorage.setItem('jwt', res.token)
-        setToken(res)
         setLogin(true);
         setEmail(email)
-        console.log(email, res)
+        history.push('/')
       }
-    })
+    }).catch(err => console.log({message: err}))
   };
 
+  React.useEffect(() => {
+   handleTokenCheck()
+  }, []);
 
-React.useEffect(() => {
-  handleTokenCheck();
-}, []);
 
   return (
-    <BrowserRouter>
+
 <currentUserContext.Provider value={currentUser}>
-<Header isEmail={signOut}></Header>
+<Header email={email} signOut={signOut}></Header>
 
     <div className="page">
     <Switch>
@@ -229,7 +233,7 @@ React.useEffect(() => {
       </div>
 
       </currentUserContext.Provider>
-    </BrowserRouter>
+
   );
 }
 
