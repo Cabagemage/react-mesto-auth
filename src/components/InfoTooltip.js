@@ -2,9 +2,7 @@ import React from "react";
 import success from '../images/success.png';
 import fail from '../images/fail.png';
 
-const btnstyle= {
-  right: 190
-}
+
 function InfoToolTip({setMessage, isOpen, isClose, closeToOverlay }) {
   return (
     <div
@@ -14,7 +12,6 @@ function InfoToolTip({setMessage, isOpen, isClose, closeToOverlay }) {
       <div className="popup__container popup__container_function_registration">
         <button
           type="button"
-          style={btnstyle}
           className="popup__close popup__close_current_image"
           onClick={isClose}
         ></button>

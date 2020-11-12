@@ -145,7 +145,7 @@ function App() {
           history.push("/");
         }
       })
-      .catch((err) => console.log({ message: err }));
+      .catch((err) => console.log(err));
   }
 
   const onInfoPopup = () => {
@@ -161,17 +161,23 @@ function App() {
   const onRegister = (email, password) => {
     Auth.register(email, password).then((res) => {
       if (res) {
-        console.log(res);
         onInfoPopup(); // Открытие попапа
         setInfoPopup(true) // показать сообщение об успешной регистрации
         history.push("/signin"); // Прокинуть юзера на страницу логина
       }
-    }).catch(err=> {
-      console.log(err)
-      setInfoPopup(false)
-
-    })
+    }).catch((err) => {
+      if(err.status = 401){
+    console.log('Некорректно заполнено одно из полей ')
+    onInfoPopup()
+    setInfoPopup(false)}
+    if(err.status === 400){
+    console.log('Не передано одно из полей ')
+    onInfoPopup()
+    setInfoPopup(false)
+    }
+  })
   }
+
   const handleLogin = (email, password) => {
     Auth.signIn(email, password)
       .then((res) => {
@@ -179,14 +185,19 @@ function App() {
           localStorage.setItem("jwt", res.token);
           setLogin(true);
           setEmail(email);
-          console.log(email)
           history.push("/");
         }
       })
       .catch((err) => {
-      console.log(err)
+        if(err.status = 401){
+      console.log('Некорректно заполнено одно из полей ')
+      onInfoPopup()
+      setInfoPopup(false)}
+      if(err.status === 400){
+      console.log('Не передано одно из полей ')
       onInfoPopup()
       setInfoPopup(false)
+      }
     })
   }
   React.useEffect(() => {
