@@ -1,5 +1,11 @@
 import React from "react";
-function InfoToolTip({onRegister, isOpen, isClose, closeToOverlay }) {
+import success from '../images/success.png';
+import fail from '../images/fail.png';
+
+const btnstyle= {
+  right: 190
+}
+function InfoToolTip({setMessage, isOpen, isClose, closeToOverlay }) {
   return (
     <div
       className={`popup   popup_function_registration ${isOpen && "popup_opened"}  `}
@@ -8,12 +14,14 @@ function InfoToolTip({onRegister, isOpen, isClose, closeToOverlay }) {
       <div className="popup__container popup__container_function_registration">
         <button
           type="button"
+          style={btnstyle}
           className="popup__close popup__close_current_image"
           onClick={isClose}
         ></button>
-        {/* <img className="image" src={card && card.link} alt="" /> */}
-        <h2 className="popup__container popup__container_content_name">
-          TestPopup
+        {setMessage ?  <img className="infotooltip__image"  src={success} alt=""/>  : <img className="infotooltip__image" src={fail} alt="" />}
+
+        <h2 className="infotooltip__message">
+          {setMessage ? 'Вы успешно зарегистрировались' : 'Что-то пошло не так. Попробуйте ещё раз'}
         </h2>
       </div>
     </div>

@@ -1,5 +1,7 @@
 @import url(./__logo/header__logo.css);
 @import url(./__button/header__button.css);
+@import url(./__email/header__email.css);
+@import url(./__profile/header__profile.css);
 .header{
     width: 100%;
     margin: 0 auto;

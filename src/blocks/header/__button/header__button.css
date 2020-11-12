@@ -1,9 +1,14 @@
 .header__button{
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
   font-size: 18px;
+  height: 22px;
   line-height: 22px;
-  text-align: right;
+  text-align: center;
   color: white;
   text-decoration: none;
+  justify-content: center;
   background: transparent; /* Синий цвет фона */
   color: #fff; /* Белый цвет текста */
   border: none;

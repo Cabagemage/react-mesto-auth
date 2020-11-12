@@ -13,7 +13,6 @@ function Main({
   cards,
 }) {
   const currentUser = useContext(currentUserContext);
-
   //возвращение разметки. Переменные userName / userDescrpiption через устанавливают соответствующие данные
   return (
     <div className="main">

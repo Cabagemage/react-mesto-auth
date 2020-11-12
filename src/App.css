@@ -13,6 +13,7 @@
 @import url(./blocks/grid-card/grid-card.css);
 @import url(./blocks/popup/_opened/popup_opened.css);
 @import url(./blocks/popup/__container/_function/popup__container_function_image.css);
+@import url(./blocks/popup/__container/_function/popup__container_function_registration.css);
 @import url(./blocks/popup/__container/_function/popup__container_function_remove.css);
 @import url(./blocks/popup/__container/_content/popup__container_content_name.css);
 @import url(./blocks/popup/__input/_type/popup__input_type_link.css);
@@ -22,4 +23,5 @@
 @import url(./blocks/popup/__save/_function/popup__save_function_edit.css);
 @import url(./blocks/elements/elements.css);
 @import url(./blocks/footer/footer.css);
+@import url(./blocks/infotooltip/infotooltip.css);
 

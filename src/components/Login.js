@@ -1,6 +1,5 @@
 import React from "react";
 import "../App.css";
-import * as Auth from '../utils/Auth';
 import {withRouter} from 'react-router-dom'
 class Login extends React.Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class Login extends React.Component {
         e.preventDefault()
         const {email, password} = this.state;
         this.props.handleLogin(email, password)
-        
+
   }
 
 

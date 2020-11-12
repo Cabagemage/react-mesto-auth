@@ -8,20 +8,12 @@ export const register = (email, password) => {
     },
     body: JSON.stringify({email, password})
   })
-  .then((response) => {
-    try {
-      if (response.status === 200){
-        return response.json();
-      }
-    } catch(e){
-      return (e)
-    }
-  })
   .then((res) => {
-    return res;
-  })
-  .catch((err) => console.log(err));
-};
+    if (res.ok) {
+        return res.json();
+}   return Promise.reject(new Error(`Ошибка: ${res.status}`))
+})
+}
 
 
 export const signIn = (email, password) => {
@@ -32,8 +24,10 @@ export const signIn = (email, password) => {
     },
     body: JSON.stringify({email, password})
   }).then((res) => {
-    return res.json()
-  })
+    if (res.ok) {
+        return res.json();
+}   return Promise.reject(new Error(`Ошибка: ${res.status}`))
+})
 };
 
 export const checkToken = (token) => {
@@ -44,6 +38,9 @@ export const checkToken = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-  .then(res => res.json())
-
+  .then((res) => {
+    if (res.ok) {
+        return res.json();
+}   return Promise.reject(new Error(`Ошибка: ${res.status}`))
+})
 }

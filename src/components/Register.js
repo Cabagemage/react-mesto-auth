@@ -1,6 +1,7 @@
 import React from "react";
 import "../App.css";
 import * as Auth from '../utils/Auth';
+import { Link, Route } from 'react-router-dom';
 
 class Register extends React.Component {
   constructor(props) {
@@ -45,6 +46,8 @@ class Register extends React.Component {
         required
         placeholder="пароль"></input>
         <button className="login__button">Зарегистрироваться</button>
+
+        <Link to='/signin'>Уже зарегистрированы? Войти</Link>
       </form>
     </div>
   );
