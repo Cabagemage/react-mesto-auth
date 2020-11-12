@@ -145,8 +145,11 @@ function App() {
           history.push("/");
         }
       })
-      .catch((err) => console.log(err));
-  }
+      .catch((err) => {
+      if(err.status = 401){console.log('Токен не передан или передан не в том формате')}
+      if(err.status === 400){console.log('Переданный токен некорректен')}
+  })
+}
 
   const onInfoPopup = () => {
     setInfoPopupOpen(true);
@@ -166,15 +169,10 @@ function App() {
         history.push("/signin"); // Прокинуть юзера на страницу логина
       }
     }).catch((err) => {
-      if(err.status = 401){
+      if(err.status = 400){
     console.log('Некорректно заполнено одно из полей ')
     onInfoPopup()
     setInfoPopup(false)}
-    if(err.status === 400){
-    console.log('Не передано одно из полей ')
-    onInfoPopup()
-    setInfoPopup(false)
-    }
   })
   }
 
@@ -190,7 +188,7 @@ function App() {
       })
       .catch((err) => {
         if(err.status = 401){
-      console.log('Некорректно заполнено одно из полей ')
+      console.log('Пользователь с email не найден')
       onInfoPopup()
       setInfoPopup(false)}
       if(err.status === 400){
@@ -203,6 +201,7 @@ function App() {
   React.useEffect(() => {
     handleTokenCheck();
   }, []);
+
   return (
     <currentUserContext.Provider value={currentUser}>
       <div className="page">
