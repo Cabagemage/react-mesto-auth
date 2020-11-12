@@ -1,7 +1,13 @@
 import React from "react";
 import "../App.css";
-import * as Auth from '../utils/Auth';
-import { Link, Route } from 'react-router-dom';
+import { Link} from 'react-router-dom';
+
+const redirect = {
+textDecoration: "none",
+color: "white",
+paddingTop: "15px",
+margin: "0 auto"
+}
 
 class Register extends React.Component {
   constructor(props) {
@@ -47,7 +53,7 @@ class Register extends React.Component {
         placeholder="пароль"></input>
         <button className="login__button">Зарегистрироваться</button>
 
-        <Link to='/signin'>Уже зарегистрированы? Войти</Link>
+        <Link style={redirect} to='/signin'>Уже зарегистрированы? Войти</Link>
       </form>
     </div>
   );

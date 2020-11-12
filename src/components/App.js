@@ -29,9 +29,9 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [login, setLogin] = useState(false);
-  const [isInfoPopupOpen, setInfoPopupOpen] = useState(false);
-  const [infoPopup, setInfoPopup] = useState(false)
-  const [email, setEmail] = useState("");
+  const [isInfoPopupOpen, setInfoPopupOpen] = useState(false); // Открытие и закрытие попапа
+  const [infoPopup, setInfoPopup] = useState(false) // Этот стейт указывает тру или фоллс для отображения нужного элемента
+  const [email, setEmail] = useState(""); //Сохранение емейла в стейте
   useEffect(() => {
     apiProfile
       .getAppinfo()
@@ -164,12 +164,12 @@ function App() {
         console.log(res);
         onInfoPopup(); // Открытие попапа
         setInfoPopup(true) // показать сообщение об успешной регистрации
-        history.push("/signin");
+        history.push("/signin"); // Прокинуть юзера на страницу логина
       }
     }).catch(err=> {
       console.log(err)
       setInfoPopup(false)
-      onInfoPopup()
+
     })
   }
   const handleLogin = (email, password) => {
@@ -183,9 +183,12 @@ function App() {
           history.push("/");
         }
       })
-      .catch((err) => console.log({ message: err }));
-  };
-
+      .catch((err) => {
+      console.log(err)
+      onInfoPopup()
+      setInfoPopup(false)
+    })
+  }
   React.useEffect(() => {
     handleTokenCheck();
   }, []);
