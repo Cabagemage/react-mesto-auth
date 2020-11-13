@@ -14,6 +14,7 @@ import {
   Route,
   Switch,
   useHistory,
+  Redirect
 } from "react-router-dom";
 import ProtectedRoute from "./HOC/ProtectedRoute";
 import Register from "./Register";
@@ -146,8 +147,8 @@ function App() {
         }
       })
       .catch((err) => {
-      if(err.status = 401){console.log('Токен не передан или передан не в том формате')}
-      if(err.status === 400){console.log('Переданный токен некорректен')}
+      if(err === 401){console.log('Токен не передан или передан не в том формате')}
+      if(err === 400){console.log('Переданный токен некорректен')}
   })
 }
 
@@ -167,9 +168,10 @@ function App() {
         onInfoPopup(); // Открытие попапа
         setInfoPopup(true) // показать сообщение об успешной регистрации
         history.push("/signin"); // Прокинуть юзера на страницу логина
+        console.log(res)
       }
     }).catch((err) => {
-      if(err.status = 400){
+      if(err === 400){
     console.log('Некорректно заполнено одно из полей ')
     onInfoPopup()
     setInfoPopup(false)}
@@ -186,15 +188,13 @@ function App() {
           history.push("/");
         }
       })
-      .catch((err) => {
-        if(err.status = 401){
-      console.log('Пользователь с email не найден')
-      onInfoPopup()
-      setInfoPopup(false)}
-      if(err.status === 400){
-      console.log('Не передано одно из полей ')
-      onInfoPopup()
+      .catch((error) => {
       setInfoPopup(false)
+      onInfoPopup()
+      if(error === 401){
+      console.log('Пользователь с email не найден')}
+      else if(error === 400){
+      console.log('Не передано одно из полей ')
       }
     })
   }
@@ -227,6 +227,10 @@ function App() {
           <Route path="/signup">
             <Register onRegister={onRegister} />
           </Route>
+          <Route exact path="/">
+        {login ? <Redirect to="/" /> : <Redirect to="/sign-up" />}
+      </Route>
+
           </Switch>
           <InfoToolTip
           isOpen={isInfoPopupOpen}

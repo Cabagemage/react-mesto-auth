@@ -11,7 +11,7 @@ export const register = (email, password) => {
   .then((res) => {
     if (res.ok) {
         return res.json();
-}   return Promise.reject(new Error(`Ошибка: ${res.status}`))
+}   return Promise.reject(res.status)
 })
 }
 
@@ -26,7 +26,7 @@ export const signIn = (email, password) => {
   }).then((res) => {
     if (res.ok) {
         return res.json();
-}   return Promise.reject(new Error(`Ошибка: ${res.status}`))
+}   return Promise.reject(res.status)
 })
 };
 
@@ -41,6 +41,6 @@ export const checkToken = (token) => {
   .then((res) => {
     if (res.ok) {
         return res.json();
-}   return Promise.reject(new Error(`Ошибка: ${res.status}`))
+}   return Promise.reject(res.status)
 })
 }

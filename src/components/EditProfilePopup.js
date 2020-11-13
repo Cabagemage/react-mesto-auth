@@ -32,6 +32,9 @@ export default function EditProfilePopup({
       name="edit"
       form="edit"
       title="Редактировать профиль"
+      onSubmit={handleSubmit}
+      buttonText="Сохранить"
+      btnClassName="edit"
       isOpen={isOpen}
       isClose={isClose}
       closeToOverlay={closeToOverlay}
@@ -64,13 +67,6 @@ export default function EditProfilePopup({
             />
             <span id="about-error" className="popup__input_type_error"></span>
           </div>
-          <button
-            type="submit"
-            className="popup__save popup__save_function_edit"
-            onClick={handleSubmit}
-          >
-            Сохранить
-          </button>
         </>
       }
     />

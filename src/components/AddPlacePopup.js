@@ -8,10 +8,7 @@ export default function AddPlacePopup({ isOpen, isClose, closeToOverlay, onSubmi
         link: ''
     })
 
-    const [formValidity, setFormValidity] = React.useState({
-        nameValid: false,
-        linkValid: false,
-    })
+
 
 
     const handleInputChange = React.useCallback((e) =>{
@@ -21,22 +18,10 @@ export default function AddPlacePopup({ isOpen, isClose, closeToOverlay, onSubmi
 
 
     const {name, link} = placeValues
-    const {nameValid, linkValid} = formValidity
-    const isSubmitDisabled =!nameValid || !linkValid
     const nameRef = React.useRef('')
     const imageRef = React.useRef('')
 
-    React.useEffect(function validateInpus(){
-        const isNameFilled = placeValues.name.length > 2;
-        const isNameValid = isNameFilled;
 
-        const isLinkFilled = placeValues.link.length > 10;
-        const isLinkValid = isLinkFilled;
-        setFormValidity(prevValidity => ({
-         nameValid: isNameValid,
-         linkValid: isLinkValid
-        }))
-    }, [placeValues, setFormValidity])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -47,14 +32,15 @@ export default function AddPlacePopup({ isOpen, isClose, closeToOverlay, onSubmi
             name="add"
             form="add"
             title='Новое место'
+            onSubmit={handleSubmit}
+            btnClassName="create"
+            buttonText='Сохранить'
             isOpen={isOpen}
             isClose={isClose}
             closeToOverlay={closeToOverlay}
             children={
                 <>
                     <div className="popup__inputs">
-                    {!nameValid && <p class="popup__input_type_error">Введите название</p>}
-                    {!linkValid && <p class="error">Введите ссылку</p>}
                         <input
 
                             type="text"
@@ -82,11 +68,7 @@ export default function AddPlacePopup({ isOpen, isClose, closeToOverlay, onSubmi
                             id="link-error"
                             className="popup__input_type_error"></span>
                     </div>
-                    <button
-                        disabled={isSubmitDisabled}
-                        type="submit"
-                        onClick={handleSubmit}
-                        className="popup__save   popup__save_function_create">Создать</button>
+
                 </>
             }
         />

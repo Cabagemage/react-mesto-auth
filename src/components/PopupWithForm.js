@@ -4,9 +4,12 @@ import "../App.css";
 function PopupWithForm({
   isOpen,
   isClose,
+  onSubmit,
+  btnClassName,
   name,
   form,
   title,
+  buttonText,
   children,
   closeToOverlay,
 }) {
@@ -24,6 +27,10 @@ function PopupWithForm({
           ></button>
           <h2 className="popup__edit">{title}</h2>
           {children}
+          <button
+          type="submit"
+          onClick={onSubmit}
+          className={`popup__save popup__save_function_${btnClassName}`}>{buttonText}</button>
         </div>
       </form>
     </div>
