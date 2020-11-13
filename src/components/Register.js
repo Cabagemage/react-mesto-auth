@@ -39,6 +39,7 @@ class Register extends React.Component {
       <form onSubmit={this.handleSubmit} className="login__form">
         <input
         name="email"
+        type="email"
         onChange={this.handleChange}
         value={this.state.email}
         className="login__email"
@@ -46,6 +47,7 @@ class Register extends React.Component {
         placeholder="email"></input>
         <input
         name="password"
+        type="password"
         onChange={this.handleChange}
         value={this.state.password}
         className="login__password"
