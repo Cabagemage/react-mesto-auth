@@ -205,11 +205,11 @@ function App() {
   return (
     <currentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header loggedIn={login} email={email} signOut={signOut}></Header>
+        <Header login={login} email={email} signOut={signOut}></Header>
 
         <Switch>
           <ProtectedRoute
-            loggedIn={login}
+            login={login}
             exact
             path="/"
             component={Main}
@@ -221,16 +221,17 @@ function App() {
             onEditAvatar={handleAvatarClick}
             onCardClick={handleCardClick}
           ></ProtectedRoute>
+
           <Route path="/signin">
             <Login handleLogin={handleLogin} />
           </Route>
           <Route path="/signup">
             <Register onRegister={onRegister} />
           </Route>
-          <Route exact path="/">
-        {login ? <Redirect to="/" /> : <Redirect to="/sign-up" />}
-      </Route>
 
+          <Route path="/">
+            {login ? <Redirect to="/" /> : <Redirect to="/signin" />}
+          </Route>
           </Switch>
           <InfoToolTip
           isOpen={isInfoPopupOpen}
