@@ -2,7 +2,6 @@ import React from "react";
 import logo from "../images/logo.svg";
 import { Link, Route } from 'react-router-dom';
 import "../App.css";
-import { signIn } from "../utils/Auth";
 
 
 function Header({onRegister, signOut, email}) {
